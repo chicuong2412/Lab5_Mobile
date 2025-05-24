@@ -17,7 +17,7 @@ export default function Detail() {
       },
       responseType: "json",
       url:
-        "https://cors-anywhere.herokuapp.com/https://kami-backend-5rs0.onrender.com/services/" +
+        "https://kami-backend-5rs0.onrender.com/services/" +
         ID,
     })
       .then((rp) => {

@@ -4,6 +4,7 @@ import "react-native-reanimated";
 import AuthContext from "@/components/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Stack } from "expo-router";
+import { PaperProvider } from "react-native-paper";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -17,15 +18,17 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthContext>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="(main)" />
-      </Stack>
-    </AuthContext>
+    <PaperProvider>
+      <AuthContext>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(main)" />
+        </Stack>
+      </AuthContext>
+    </PaperProvider>
   );
 }

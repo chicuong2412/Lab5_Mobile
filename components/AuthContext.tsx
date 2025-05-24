@@ -7,6 +7,7 @@ import React, { createContext, useEffect, useState } from "react";
 export const AuthContextProvider = createContext<IAuth>({
   isLogged: false,
   HandleLogin: async (phone: string, password: string) => {},
+  
 });
 
 export default function AuthContext({ children }: any) {
@@ -18,7 +19,7 @@ export default function AuthContext({ children }: any) {
   const HandleLogin = async (phone: string, password: string) => {
     axios({
       method: "post",
-      url: "https://cors-anywhere.herokuapp.com/https://kami-backend-5rs0.onrender.com/auth",
+      url: "https://kami-backend-5rs0.onrender.com/auth",
       data: JSON.stringify({
         phone: phone,
         password,
@@ -32,6 +33,8 @@ export default function AuthContext({ children }: any) {
         return rp.data;
       })
       .then(async (data) => {
+        console.log(data);
+        
         await AsyncStorage.setItem("token", data.token);
         await AsyncStorage.setItem("name", data.name);
         setIslogged(true);
@@ -52,7 +55,7 @@ export default function AuthContext({ children }: any) {
   }, []);
 
   return (
-    <AuthContextProvider.Provider value={{ isLogged, token, HandleLogin }}>
+    <AuthContextProvider.Provider value={{ isLogged, token, HandleLogin, setIslogged }}>
       {children}
     </AuthContextProvider.Provider>
   );

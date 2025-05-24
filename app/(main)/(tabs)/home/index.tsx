@@ -5,11 +5,12 @@ import axios from "axios";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-    FlatList,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from "react-native";
 
 export default function ServiceListScreen() {
@@ -17,7 +18,6 @@ export default function ServiceListScreen() {
   const router = useRouter();
 
   useEffect(() => {
-
     axios({
         method: "get",
         headers: {
@@ -25,14 +25,12 @@ export default function ServiceListScreen() {
             "Access-Control-Allow-Origin": "*"
         },
         responseType: "json",
-        url: 'https://cors-anywhere.herokuapp.com/https://kami-backend-5rs0.onrender.com/services'
+        url: 'https://kami-backend-5rs0.onrender.com/services'
     }).then(rp => {
         return rp.data
     }).then(data => {
         setServices(data)
     })
-
-
   }, []);
 
 
@@ -41,22 +39,28 @@ export default function ServiceListScreen() {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>{AsyncStorage.getItem("name")}</Text>
-        <TouchableOpacity>
-          <MaterialIcons name="menu" size={28} color="#fff" />
+        <TouchableOpacity onPress={() => {
+          AsyncStorage.clear().then(() => {
+            router.replace("/(auth)/LoginScreen")
+          })
+        }}>
+          <MaterialIcons name="logout" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
 
       {/* Logo */}
-      {/* <Image
-        source={{ uri: 'https://i.imgur.com/4M7IWwP.png' }}
+      <Image
+        source={{ uri: 'https://static.vecteezy.com/system/resources/previews/014/861/969/non_2x/db-logo-design-initial-db-letter-logo-design-monogram-design-pro-vector.jpg' }}
         style={styles.logo}
         resizeMode="contain"
-      /> */}
+      />
 
       {/* Title and Add Button */}
       <View style={styles.titleRow}>
         <Text style={styles.title}>Danh sách dịch vụ</Text>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity style={styles.addButton} onPress={() => {
+          router.replace("/(main)/AddProduct")
+        }}>
           <MaterialIcons name="add" size={24} color="#fff" />
         </TouchableOpacity>
       </View>

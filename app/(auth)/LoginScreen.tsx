@@ -1,5 +1,7 @@
 import { AuthContextProvider } from "@/components/AuthContext";
-import React, { useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import React, { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,7 +14,24 @@ export default function Login() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-  const { HandleLogin } = useContext(AuthContextProvider);
+  const router = useRouter();
+
+  const { HandleLogin, setIslogged } = useContext(AuthContextProvider);
+
+  useEffect(() => {
+    async function Check() {
+      const token = await AsyncStorage.getItem("token");
+
+      if (token != null) {
+        if (setIslogged !== undefined) {
+          setIslogged(true);
+          router.replace("/(main)/home")
+        }
+      }
+    }
+
+    Check();
+  }, []);
 
   return (
     <View style={styles.container}>
